@@ -2,7 +2,7 @@ from shipdataprocess.normalize import normalize_shipname
 
 def test_normalize_shipname_none():
     result = normalize_shipname(None)
-    assert result == ""
+    assert result == None
 
 def test_normalize_shipname_upcase():
     result = normalize_shipname("MixEd")
@@ -17,7 +17,11 @@ def test_normalize_shipname_spaces():
     assert result == "SPACEDNAME"
 
 def test_normalize_shipname_FB():
-    result = normalize_shipname("f/b boat f/v r/v fv othername")
+    result = normalize_shipname("f/b boat f/v othername")
+    assert result == "BOATOTHERNAME"
+
+def test_normalize_shipname_RV():
+    result = normalize_shipname("r/v boat othername")
     assert result == "BOATOTHERNAME"
 
 def test_normalize_shipname_nodot():
@@ -34,7 +38,7 @@ def test_normalize_shipname_romans():
 
 def test_normalize_shipname_empty():
     result = normalize_shipname("")
-    assert result == ""
+    assert result == None
 
 def test_normalize_shipname_1c():
     result = normalize_shipname("a")

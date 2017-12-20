@@ -2,7 +2,7 @@ from shipdataprocess.normalize import normalize_callsign
 
 def test_normalize_callsign_none():
     result = normalize_callsign(None)
-    assert result == ""
+    assert result == None
 
 def test_normalize_callsign_upcase():
     result = normalize_callsign("MixEd")
@@ -18,7 +18,7 @@ def test_normalize_callsign_spaces():
 
 def test_normalize_callsign_empty():
     result = normalize_callsign("")
-    assert result == ""
+    assert result == None
 
 def test_normalize_callsign_1c():
     result = normalize_callsign("a")
