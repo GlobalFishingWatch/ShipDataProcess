@@ -1,9 +1,9 @@
 """
-Tools for parsing and normalizing AIS from Orbcomm using dataflow
+Useful modules to process vessel data
 """
 
 
-__version__ = '0.1.0'
+__version__ = '0.5.0'
 __author__ = 'Jaeyoon Park'
 __email__ = 'jaeyoon.park13@gmail.com'
 __source__ = 'https://github.com/GlobalFishingWatch/shipdataprocess'

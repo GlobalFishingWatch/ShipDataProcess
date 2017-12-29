@@ -27,7 +27,7 @@ setup(
     description=package.__doc__.strip(),
     include_package_data=True,
     install_requires=DEPENDENCIES,
-    keywords='AIS GIS remote sensing NMEA',
+    keywords=['ship','vessel','fishing','normalization'],
     license="Apache 2.0",
     long_description=readme,
     name='shipdataprocess',
