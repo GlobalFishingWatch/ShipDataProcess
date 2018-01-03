@@ -1,20 +1,39 @@
-#from distutils.core import setup
+#!/usr/bin/env python
+
+"""
+Setup script for shipdataprocess
+"""
+
+import codecs
+import os
+
+from setuptools import find_packages
 from setuptools import setup
 
+package = __import__('shipdataprocess')
+
+DEPENDENCIES = [
+    "pytest",
+    "unidecode",
+    "roman"
+]
+
+with codecs.open('README.md', encoding='utf-8') as f:
+    readme = f.read().strip()
+
 setup(
+    author=package.__author__,
+    author_email=package.__email__,
+    description=package.__doc__.strip(),
+    include_package_data=True,
+    install_requires=DEPENDENCIES,
+    keywords=['ship','vessel','fishing','normalization'],
+    license="Apache 2.0",
+    long_description=readme,
     name='shipdataprocess',
-    version='0.4.3',
-    author='Jaeyoon Park',
-    author_email='jaeyoon.park13@gmail.com',
-    packages=['shipdataprocess'],
-    #scripts=['bin/','bin/'],
-    url='https://github.com/JaeyoonPark/shipdataprocess/',
-    license='LICENSE.txt',
-    description='Useful modules to process vessel data',
-    long_description=open('README.txt').read(),
-    keywords = ['ship','vessel','fishing','normalization']
-    #install_requires=[
-        #"Django >= 1.1.1",
-        #"caldav == 0.1.4",
-    #]
+    packages=find_packages(exclude=['test*.*', 'tests']),
+    url=package.__source__,
+    version=package.__version__,
+    zip_safe=True,
 )
+

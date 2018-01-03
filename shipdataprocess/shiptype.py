@@ -2,7 +2,6 @@ import pandas as pd
 import numpy as np
 
 
-
 def determine_shiptype(gears, shiptype_dict):
     ''' 
     determinte_shiptype module receives multiple types of ship and returns the most specific ship type.
@@ -59,7 +58,6 @@ def determine_shiptype(gears, shiptype_dict):
         return None
     else:
         return final_value
-
 
 
 ### function that makes geartype dictionary from shiptypes yaml file
