@@ -1,5 +1,2 @@
-include LICENSE
-include CHANGES.md
-include MANIFEST.in
-include README.md
-include setup.py
+include *.txt
+recursive-include docs *.txt
