@@ -124,7 +124,7 @@ def determine_shiptype_with_confidence(gears, shiptype_dict):
     levels = [int(gear.split('-')[0]) for gear in gears]
     if len(levels)>0:
         highest_level = max(levels)
-        gears = [gear.split('-')[0] for gear in gears if str(highest_level) in gear]
+        gears = [gear.split('-')[1] for gear in gears if str(highest_level) in gear]
 
     ### take only specific ones if there are several possibly duplicated ones (example: trawlers, trawlers|purse_seines)
     gears = reduce_to_specifics_with_multiples(gears, shiptype_dict)
@@ -149,6 +149,30 @@ def determine_shiptype_with_confidence(gears, shiptype_dict):
         final_value = str(highest_level) + '-' + final_value
         return final_value
 
+
+def select_high_confidence_geartype(x, y):
+    '''return a geartype that has higher confidence level'''
+
+    if (x==x)&(x!=None)&(y==y)&(y!=None):
+        x_level = int(x.split('-')[0]) 
+        x_value = x.split('-')[1]
+        y_level = int(y.split('-')[0])
+        y_value = y.split('-')[1]
+        ## if x confidence level is higher, return x
+        if x_level > y_level:
+            return x
+        ## if confidence levels are the same, determine shiptype and return
+        elif x_level == y_level:
+            return str(x_level) + '-' + determine_shiptype([x_value, y_value], shiptype_dict)
+        ## if y confidence level is higher, return y
+        else:
+            return y
+    elif (x==x)&(x!=None):
+        return x
+    elif (y==y)&(y!=None):
+        return y
+    else:
+        return np.nan
 
 
 ### function that makes geartype dictionary from shiptypes yaml file
