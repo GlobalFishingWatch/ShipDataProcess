@@ -14,4 +14,9 @@ v0.3.2, 2017-10-28 -- Change project name to shipdataprocess
 v0.4.0, 2017-11-30 -- Add standardize.py and collapse.py, revise shiptype.py
 v0.4.1, 2017-12-05 -- Add type of Pandas DataFrame in standardize.py
 v0.4.3, 2017-12-17 -- Change in make_shiptype_dict()
-v0.5.0  2017-12-29 -- Add setup.py, fix unit tests
+v0.5.0, 2017-12-29 -- Add setup.py, fix unit tests
+v0.5.1, 2018-01-04 -- Add new module reduce_to_general() in shiptype.py 
+v0.5.2, 2018-01-25 -- Add determine_shiptype_simple() in shiptype.py
+v0.5.3, 2018-01-25 -- Fix a bug with list sort in determine_shiptype and determine_shiptype_simple() in shiptype.py
+v0.5.4, 2018-01-25 -- Fix a bug in reduce_to_specific() in shiptype.py to remove redundant gear types
+v0.5.5, 2018-02-27 -- Add determine_shiptype_with_confidence() in shiptype.py to pull best values taken with confidence level of registries

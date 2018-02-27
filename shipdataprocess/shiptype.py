@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 
 
+
 def determine_shiptype(gears, shiptype_dict):
     ''' 
     determinte_shiptype module receives multiple types of ship and returns the most specific ship type.
@@ -52,12 +53,102 @@ def determine_shiptype(gears, shiptype_dict):
     gears = reduce_to_specifics(gears_split, shiptype_dict)
 
     ### remove redundant values and join together with '|'
-    gears = list(set(gears))
+    gears = sorted(list(set(gears)))
     final_value = '|'.join(gears)
     if final_value=='':
         return None
     else:
         return final_value
+
+
+
+def determine_shiptype_simple(gears, shiptype_dict):
+    ''' 
+    same as determinte_shiptype module but without reducing multiple gears to specific (this is for testing).
+    '''
+
+    ## if there is no information on gears, then return None
+    if len(gears)==0:
+        return None
+    
+    ### make sure the entry is a list of strings
+    if type(gears)==str:
+        gears = [gears]
+    elif type(gears)==list:
+        pass
+    else: gears = gears.tolist()
+    
+    ### remove Nones
+    gears = [gear.replace(' ','').strip() for gear in gears if (gear!=None)&(gear==gear)&(gear!='')]
+    
+    ### get rid of '|' and take all possible gears individually  
+    gears_split=[]
+    for g in gears:
+        if '|' in g:
+            gears_split += g.split('|')
+        else:
+            gears_split.append(g)
+    
+    ### map geartype_dict to compare categories (broader ones to be removed)
+    gears = reduce_to_specifics(gears_split, shiptype_dict)
+
+    ### remove redundant values and join together with '|'
+    gears = sorted(list(set(gears)))
+    final_value = '|'.join(gears)
+    if final_value=='':
+        return None
+    else:
+        return final_value
+
+
+def determine_shiptype_with_confidence(gears, shiptype_dict):
+    ''' 
+    same as determine_shiptype but with confidence level taken into account
+    '''
+
+    ## if there is no information on gears, then return None
+    if len(gears)==0:
+        return None
+    
+    ### make sure the entry is a list of strings
+    if type(gears)==str:
+        gears = [gears]
+    elif type(gears)==list:
+        pass
+    else: gears = gears.tolist()
+    
+    ### remove Nones
+    gears = [gear.replace(' ','').strip() for gear in gears if (gear!=None)&(gear==gear)&(gear!='')]
+    
+    ### remove all gear values from lists of less confidence level
+    levels = [int(gear.split('-')[0]) for gear in gears]
+    if len(levels)>0:
+        highest_level = max(levels)
+        gears = [gear.split('-')[0] for gear in gears if str(highest_level) in gear]
+
+    ### take only specific ones if there are several possibly duplicated ones (example: trawlers, trawlers|purse_seines)
+    gears = reduce_to_specifics_with_multiples(gears, shiptype_dict)
+
+    ### get rid of '|' and take all possible gears individually  
+    gears_split=[]
+    for g in gears:
+        if '|' in g:
+            gears_split += g.split('|')
+        else:
+            gears_split.append(g)
+    
+    ### map geartype_dict to compare categories (broader ones to be removed)
+    gears = reduce_to_specifics(gears_split, shiptype_dict)
+
+    ### remove redundant values and join together with '|'
+    gears = sorted(list(set(gears)))
+    final_value = '|'.join(gears)
+    if final_value=='':
+        return None
+    else:
+        final_value = str(highest_level) + '-' + final_value
+        return final_value
+
 
 
 ### function that makes geartype dictionary from shiptypes yaml file
@@ -131,14 +222,17 @@ def reduce_to_specifics(gears, shiptype_dict):
     ### mapped to shiptype dictionary values
     gears_mapped = [shiptype_dict[gear] for gear in singles if shiptype_dict[gear]!=None]
     
+    temp = list(gears_mapped)
     for gear in gears_mapped:
         others = [g for g in gears_mapped if g!=gear]
 
         for other in others:
             ### see if the gear in question is a subset of anyone of the others, if true, remove it from the list
             if set(gear).issubset(other):
-                if gear in gears_mapped:
-                    gears_mapped.remove(gear)
+                if gear in temp:
+                    temp.remove(gear)
+
+    gears_mapped = temp
        
     ### return only end values as in a list
     reduced = []
@@ -183,6 +277,96 @@ def reduce_to_specifics_with_multiples(gears, shiptype_dict):
     
     ### final clearing-up
     gears = reduce_to_specifics(gears, shiptype_dict)
+    
+    return gears
+
+
+def reduce_to_general(gears, shiptype_dict):
+    '''
+    this module reduces the list of gear values only to contain general geartype values
+
+    --------
+    ARGUMENT
+    --------
+    gears: LIST of strings that are gear types predefined
+    --------
+
+    ------
+    RETURN
+    ------
+    values: LIST of string that are gear types predefined
+
+    '''
+
+    if len(gears)==0:
+        return []
+    
+    ### reduce only single gear values
+    singles = [gear for gear in gears if '|' not in gear]
+    multiples = [gear for gear in gears if '|' in gear]
+
+    ### mapped to shiptype dictionary values
+    gears_mapped = [shiptype_dict[gear] for gear in singles if shiptype_dict[gear]!=None]
+
+    temp = list(gears_mapped)
+    for gear in gears_mapped:
+        others = [g for g in gears_mapped if g!=gear]
+
+        for other in others:
+            ### see if anyone of the others is a subset of gear in question, if true, remove the gear (more detailed one) from the list
+            if set(other).issubset(gear):
+                if gear in temp:
+                    temp.remove(gear)
+       
+    gears_mapped = temp
+    
+    ### return only end values as in a list
+    reduced = []
+    for gear in gears_mapped:
+        val = gear[-1]
+        reduced.append(val)
+
+    reduced = list(set(reduced))
+    final = reduced + multiples
+
+    return final
+
+
+def reduce_to_general_with_multiples(gears, shiptype_dict):
+    '''
+    returns general (less detailed) gear types only if gear values can be reduced according to shiptype yaml file
+    '''
+    
+    if len(gears)==0:
+        return []
+    
+    ### reduce singles to specifics if possible
+    gears = reduce_to_general(gears, shiptype_dict)
+    singles = [gear for gear in gears if '|' not in gear]
+    multiples = [gear for gear in gears if '|' in gear]
+    
+    if len(multiples)>0:
+        for multiple in multiples:
+            flags=[]
+            elems = multiple.split('|')
+            
+            for elem in elems:
+                ### look at elements of multiples if they can be reduced to specifics with single values
+                vals = [reduce_to_general([elem, single], shiptype_dict) for single in singles \
+                        if len(reduce_to_general([elem, single], shiptype_dict))==1]
+                if len(vals)==1:
+                    flags.append(1)
+                    reduced = vals[0]
+                else:
+                    flags.append(0)
+            
+            ### if it can be reduced, then remove this multiple and put this reduced values
+            if sum(flags)>0:
+                gears.remove(multiple)
+                gears = gears + reduced
+
+    ### final clearing-up
+    gears = reduce_to_general(gears, shiptype_dict)
     
     return gears
 
