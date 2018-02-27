@@ -21,3 +21,4 @@ v0.5.3, 2018-01-25 -- Fix a bug with list sort in determine_shiptype and determi
 v0.5.4, 2018-01-25 -- Fix a bug in reduce_to_specific() in shiptype.py to remove redundant gear types
 v0.5.5, 2018-02-27 -- Add determine_shiptype_with_confidence() in shiptype.py to pull best values taken with confidence level of registries
 v0.5.6, 2018-02-27 -- Add select_high_confidence_geartype() in shiptype.py to select higher confident value between the two geartypes
+v0.5.7, 2018-02-27 -- Fix a bug in select_high_confidence_geartype()

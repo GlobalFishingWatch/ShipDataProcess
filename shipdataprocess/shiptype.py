@@ -150,7 +150,7 @@ def determine_shiptype_with_confidence(gears, shiptype_dict):
         return final_value
 
 
-def select_high_confidence_geartype(x, y):
+def select_high_confidence_geartype(x, y, shiptype_dict):
     '''return a geartype that has higher confidence level'''
 
     if (x==x)&(x!=None)&(y==y)&(y!=None):
