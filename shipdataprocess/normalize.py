@@ -139,7 +139,24 @@ def normalize_shipname(name):
     
     return name
 
+def normalize_shipname_parts(name):
+    status = None
 
+    bouy_patterns = [
+        "(.*)([\s]+[0-9]+%)$",
+        "(.*)[@]+([0-9]+V[0-9]?)$"
+    ]
+    for pattern in bouy_patterns:
+        m = re.match(pattern, name)
+        if m:
+            name = m.group(1).strip()
+            status = m.group(2).strip()
+            break
+
+    return dict(
+        basename=normalize_shipname(name),
+        status=status
+    )
 
 def normalize_callsign(callsign):
 

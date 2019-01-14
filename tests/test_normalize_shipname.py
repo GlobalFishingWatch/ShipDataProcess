@@ -1,4 +1,6 @@
+import pytest
 from shipdataprocess.normalize import normalize_shipname
+from shipdataprocess.normalize import normalize_shipname_parts
 
 def test_normalize_shipname_none():
     result = normalize_shipname(None)
@@ -47,3 +49,14 @@ def test_normalize_shipname_1c():
 def test_normalize_shipname_no():
     result = normalize_shipname("no")
     assert result == "NO"
+
+@pytest.mark.parametrize("name, expected", [
+    ("A", {"basename":"A", "status": None}),
+    ("AAA12", {"basename":"AAA12", "status": None}),
+    ("AAA 12%", {"basename":"AAA", "status": "12%"}),
+    ("AAA 12", {"basename":"AAA12", "status": None}),
+    ("AAA@@12V", {"basename":"AAA", "status": "12V"}),
+    ("AAA@@12V0", {"basename":"AAA", "status": "12V0"}),
+    ])
+def test_normalize_shipname_parts(name, expected):
+    assert normalize_shipname_parts(name) == expected
