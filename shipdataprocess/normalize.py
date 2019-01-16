@@ -146,12 +146,13 @@ def normalize_shipname_parts(name):
         "(.*)([\s]+[0-9]+%)$",
         "(.*)[@]+([0-9]+V[0-9]?)$"
     ]
-    for pattern in bouy_patterns:
-        m = re.match(pattern, name)
-        if m:
-            name = m.group(1).strip()
-            status = m.group(2).strip()
-            break
+    if name is not None:
+        for pattern in bouy_patterns:
+            m = re.match(pattern, name)
+            if m:
+                name = m.group(1).strip()
+                status = m.group(2).strip()
+                break
 
     return dict(
         basename=normalize_shipname(name),

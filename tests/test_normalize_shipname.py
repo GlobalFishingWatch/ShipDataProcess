@@ -57,6 +57,7 @@ def test_normalize_shipname_no():
     ("AAA 12",    {"basename":"AAA12", "status": None}),
     ("AAA@@12V",  {"basename":"AAA", "status": "12V"}),
     ("AAA@@12V0", {"basename":"AAA", "status": "12V0"}),
+    (None, {"basename": None, "status": None}),
     ])
 def test_normalize_shipname_parts(name, expected):
     assert normalize_shipname_parts(name) == expected
