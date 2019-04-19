@@ -22,3 +22,10 @@ v0.5.4, 2018-01-25 -- Fix a bug in reduce_to_specific() in shiptype.py to remove
 v0.5.5, 2018-02-27 -- Add determine_shiptype_with_confidence() in shiptype.py to pull best values taken with confidence level of registries
 v0.5.6, 2018-02-27 -- Add select_high_confidence_geartype() in shiptype.py to select higher confident value between the two geartypes
 v0.5.7, 2018-02-27 -- Fix a bug in select_high_confidence_geartype()
+v0.6.0, 2018-04-25 -- Add new modules with confidence level, fix several modules in collapse.py and standardize.py
+v0.6.1, 2018-04-26 -- Add standardize_uvi() and add new lines for normalization of 1ST, 2ND ...
+v0.6.2, 2018-04-27 -- Fix a bug in standardize_uvi() by adding clean_uvi() module
+v0.6.6, 2018-04-27 -- Fix a bug in standardize_uvi()
+v0.6.7, 2019-02-13 -- Make it compatible with Python 3.x for unicode/unidecode 
+v0.6.8, 2019-03-02 -- Fix a bug in standardize_flag and standardize_geartype for the case when fields are Null
+v0.6.9, 2019-04-19 -- Upgrade pd.tslib.Timestamp with pd.Timestamp as tslib is depreciated now

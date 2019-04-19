@@ -101,6 +101,13 @@ def determine_shiptype_simple(gears, shiptype_dict):
         return final_value
 
 
+def tag_confidence_level(x, c):
+    if (x==x)&(x!=None)&(x!=0)&(x!=''):
+        return str(c) + '-' + str(x)
+    else:
+        return np.nan
+
+
 def determine_shiptype_with_confidence(gears, shiptype_dict):
     ''' 
     same as determine_shiptype but with confidence level taken into account
@@ -108,7 +115,7 @@ def determine_shiptype_with_confidence(gears, shiptype_dict):
 
     ## if there is no information on gears, then return None
     if len(gears)==0:
-        return None
+        return np.nan
     
     ### make sure the entry is a list of strings
     if type(gears)==str:
@@ -117,14 +124,21 @@ def determine_shiptype_with_confidence(gears, shiptype_dict):
         pass
     else: gears = gears.tolist()
     
-    ### remove Nones
+    ### remove NaN/None
     gears = [gear.replace(' ','').strip() for gear in gears if (gear!=None)&(gear==gear)&(gear!='')]
+    if len(gears)==0:
+        return np.nan
     
     ### remove all gear values from lists of less confidence level
     levels = [int(gear.split('-')[0]) for gear in gears]
     if len(levels)>0:
         highest_level = max(levels)
-        gears = [gear.split('-')[1] for gear in gears if str(highest_level) in gear]
+        if (highest_level==3)&(2 in levels):
+            gears_3 = [gear.split('-')[1] for gear in gears if ('3' in gear)] 
+            gears_2 = [gear.split('-')[1] for gear in gears if ('2' in gear)] 
+            gears = [gear.split('-')[1] for gear in gears if ('2' in gear)|('3' in gear)]
+        else:
+            gears = [gear.split('-')[1] for gear in gears if str(highest_level) in gear]
 
     ### take only specific ones if there are several possibly duplicated ones (example: trawlers, trawlers|purse_seines)
     gears = reduce_to_specifics_with_multiples(gears, shiptype_dict)
@@ -143,8 +157,19 @@ def determine_shiptype_with_confidence(gears, shiptype_dict):
     ### remove redundant values and join together with '|'
     gears = sorted(list(set(gears)))
     final_value = '|'.join(gears)
+    
+    ### check the case of combination of level 2 and 3
+    if (highest_level==3)&(2 in levels):
+        final_value_3 = determine_shiptype(gears_3, shiptype_dict)
+        final_value_2 = determine_shiptype(gears_2, shiptype_dict)
+        if (not final_value in final_value_3)&(final_value in final_value_2):
+            pass
+        else: 
+            final_value = final_value_3
+    
+    ### output
     if final_value=='':
-        return None
+        return np.nan
     else:
         final_value = str(highest_level) + '-' + final_value
         return final_value

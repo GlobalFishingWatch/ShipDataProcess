@@ -1,6 +1,7 @@
 from unidecode import unidecode
 import roman
 import re
+import sys
 
 def normalize_shipname(name):
         
@@ -12,13 +13,16 @@ def normalize_shipname(name):
     
 
     ## remove nasty charcters, white space
-    try:
-        name = unidecode(unicode(name)) # get rid of nasty characters, but sometimes this fails
-    except:
+    if sys.version_info[0] < 3:
         try:
-            name = unidecode(unicode(name.decode('utf8')))
+            name = unidecode(str(name)) # get rid of nasty characters, but sometimes this fails
         except:
-            name = unidecode(unicode(name.decode('iso_8859-1')))
+            try:
+                name = unidecode(str(name.decode('utf8')))
+            except:
+                name = unidecode(str(name.decode('iso_8859-1')))
+    else:
+        name = unidecode(str(name))
 
     name = re.sub('\s+',' ',name)
     name = name.strip()
@@ -88,8 +92,15 @@ def normalize_shipname(name):
     name = re.sub(' FOURTEEN($)| CATORCE($)| QUATORZE($)', ' 14', name)
     name = re.sub(' FIFTEEN($)| QUINCE($)| QUINZE($)', ' 15', name)
 
+    name = re.sub('1ST ', 'FIRST ', name)
+    name = re.sub('2ND ', 'SECOND ', name)
+    name = re.sub('3RD ', 'THIRD ', name)
+    name = re.sub('4TH ', 'FOURTH ', name)
+    name = re.sub('5TH ', 'FIFTH ', name)
+
     ## country specific appendix (korea)
     name = re.sub(' HO($)', ' ', name)
+    #name = re.sub('HAO($)', ' ', name)
 
     ## remove NO.s such in NO.5, NO5, NO:5, NO. 5, NO 5, N5, N-5 etc
     name = re.sub('NO[^\w\s]*[\s]*(?=\d+)', '', name)
@@ -151,12 +162,12 @@ def normalize_callsign(callsign):
     
     ## remove nasty charcters, white space
     try:
-        callsign = unidecode(unicode(callsign)) # get rid of nasty characters, but sometimes this fails
+        callsign = unidecode(str(callsign)) # get rid of nasty characters, but sometimes this fails
     except:
         try:
-            callsign = unidecode(unicode(callsign.decode('utf8')))
+            callsign = unidecode(str(callsign.decode('utf8')))
         except:
-            callsign = unidecode(unicode(callsign.decode('iso_8859-1')))
+            callsign = unidecode(str(callsign.decode('iso_8859-1')))
 
     callsign = callsign.strip()
     callsign = re.sub('\s+',' ',callsign)
