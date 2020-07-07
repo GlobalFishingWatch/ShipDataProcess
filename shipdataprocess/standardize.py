@@ -65,21 +65,88 @@ def standardize_str(elem, check_field=True):
             raise ValueError('Unknown type received')
     else:
         return None
-    
+
+#
+# Standardize owner's names. Remove all variations of CO. LTD or similar types of suffixes
+# and unionize all "fishery' to "fisheries".
+#
+def standardize_owner(elem, check_field=True):
+    if check_field:
+        elem = standardize_str(elem, check_field)
+
+        text_to_remove = \
+            ['CO LTD', 'COLTD', 'COMPANY LTD', 'CO LIMITED', 'COMPANY LIMITED', 'CO LIMTED', 'CO LTTD', 'CV LIMITADA',
+             'LTD SA($)', 'LTD S A($)', 'CO SA($)', 'CO S A($)', 'CO AB($)', 'CO A B($)', 'CO PTY LTD($)', 'CO LRD($)',
+             'PTY LIMITED($)', 'PTY LTD($)', 'SA PTY LTD($)', 'CORP LTD($)', 'LTDA EPP($)', 'JOINT STOCK COMPANY($)',
+             'JOINTSTOCK COMPANY($)', 'CORPORATION PTE LTD($)', 'CORPORATION PTE($)', 'CORP PTE($)', 'CORP SA($)',
+             'CORP INC($)', 'CORPORATION($)', 'CORP($)', 'INCORPORATED($)', 'INC($)', 'AP PTE LTD', 'CO PTE LTD',
+             'GMBH CO', 'GMBH($)', 'LTD($)', 'LTDA($)', 'LIMITED($)', 'PTE($)', 'LIMITADA($)', 'LDA($)', 'LLC($)',
+             'COMPANY NV($)', 'COMPANY N V($)', 'COMPANY BV($)', 'COMPANY B V($)', 'CO BV($)', 'CO B V($)', 'CO NV($)',
+             'CO N V($)', 'SA DE CV($)', 'S A DE C V($)', 'SCL DE CV($)', 'S C L DE C V($)', 'SCL($)', 'S C L($)',
+             'S C DE R L($)', 'S R L DE C V($)', 'SAC($)', 'S A C($)', 'EIRL($)', 'E I R L($)', 'SRL($)', 'S R L($)',
+             ' CIA($)', 'EURL($)', '(^)EURL', 'SARL($)', '(^)SARL', 'SNC($)', '(^)SNC', 'SPC($)', '(^)SPC', 'SPA($)',
+             'SAS($)', ' SA($)', ' S A($)', ' SL($)', ' S L($)', ' SC($)', ' S C($)', 'CO WLL($)', 'CO LIB($)',
+             ' AS($)', ' A S($)', 'PJSC($)', 'P JSC($)', 'OJSC($)', 'CJSC($)' 'JSC($)', ' EPP($)', ' CB($)', ' C B($)',
+             ' CA($)', ' C A($)', ' GIE($)', 'KABUSHIKI KAISHA($)', ' KK($)', 'K K($)', ' BV($)', ' B V($)',
+             'YUGEN KAISHA', 'YUGEN', 'KAISHA', 'KAISYA', 'YUGEN KAISYA', 'GYOGYO', 'GYOGYOU', 'GAISHA', ' JU($)',
+             'OOO($)', '(^)OOO', 'CO PVT($)', 'COMPANY PVT($)', ' PT($)', ' P T($)', '(^)PT', ' CC($)',
+             ' CO($)',  'COMPANY($)', ' NV($)', ' N V($)', '^NA($)', '^N A($)', 'RPTD SOLD.*', 'OWNER UNKNOWN*']
+        text_to_remove = '|'.join(text_to_remove)
+
+        if type(elem) == pd.core.series.Series:
+            elem = elem.apply(
+                lambda x: unidecode(re.sub(r'\(.+\)', ' ', x)).strip() if (x == x) & (x != None) & (x != '') else None)
+            elem = elem.apply(
+                lambda x: unidecode(re.sub(r'[^\w]+', ' ', x)).strip() if (x == x) & (x != None) & (x != '') else None)
+            elem = elem.apply(
+                lambda x: re.sub(text_to_remove, ' ', x) if (x == x) & (x != None) * (x != '') else None)
+            elem = elem.apply(
+                lambda x: re.sub(r'\s+', ' ', x).strip() if (x == x) & (x != None) * (x != '') else None)
+            return elem.apply(
+                lambda x: re.sub('FISHERY', 'FISHERIES', x) if (x == x) & (x != None) * (x != '') else None)
+        elif type(elem) == pd.core.frame.DataFrame:
+            elem = elem[check_field].apply(
+                lambda x: unidecode(re.sub(r'\(.+\)', ' ', x)).strip() if (x == x) & (x != None) & (x != '') else None)
+            elem = elem[check_field].apply(
+                lambda x: unidecode(re.sub(r'[^\w]+', ' ', x)).strip() if (x == x) & (x != None) & (x != '') else None)
+            elem = elem[check_field].apply(
+                lambda x: re.sub(text_to_remove, ' ', x) if (x == x) & (x != None) * (x != '') else None)
+            elem = elem[check_field].apply(
+                lambda x: re.sub(r'\s+', ' ', x).strip() if (x == x) & (x != None) * (x != '') else None)
+            return elem[check_field].apply(
+                lambda x: re.sub('FISHERY', 'FISHERIES', x) if (x == x) & (x != None) * (x != '') else None)
+        elif (elem != elem) | (elem == None) | (elem == '') | (elem == 0):
+            return np.nan
+        elif type(elem) == str:
+            elem = unidecode(re.sub(r'\(.+\)', ' ', elem)).strip()
+            elem = unidecode(re.sub(r'[^\w]+', ' ', elem)).strip()
+            elem = re.sub(text_to_remove, ' ', elem)
+            elem = re.sub(r'\s+', ' ', elem).strip()
+            return re.sub('FISHERY', 'FISHERIES', elem)
+        else:
+            raise ValueError('Unknown type received')
+    else:
+        return None
+
+
 #
 # Standardize Integer in a form of string because Pandas Series or DataFrame considers a column of integers with Nulls as a column of float
 # Save it as a string column so that it can be uploaded as integer columns when uploading to BigQuery.
 #
 def standardize_int_str(elem, check_field=True):
     if check_field:
-        if type(elem)==pd.core.series.Series:
-            return elem.apply(lambda x: str(int(float(re.sub('[^\d\.]','',str(x))))) if (x==x)&(x!=None)&(x!='')&(x!=0) else None)
-        elif type(elem)==pd.core.frame.DataFrame:
-            return elem[check_field].apply(lambda x: str(int(float(re.sub('[^\d\.]','',str(x))))) if (x==x)&(x!=None)&(x!='')&(x!=0) else None)
-        elif (elem!=elem)|(elem==None)|(elem=='')|(elem==0):
+        if type(elem) == pd.core.series.Series:
+            return elem.apply(
+                lambda x: str(int(float(re.sub('[^\d\.]', '', str(x)))))
+                if (x == x) & (x is not None) & (x != '') else None)
+        elif type(elem) == pd.core.frame.DataFrame:
+            return elem[check_field].apply(
+                lambda x: str(int(float(re.sub('[^\d\.]', '', str(x)))))
+                if (x == x) & (x is not None) & (x != '') else None)
+        elif (elem != elem) | (elem is not None) | (elem == ''):
             return None
-        elif (type(elem)==str)|(type(elem)==int)|(type(elem)==float):
-            return str(int(float(re.sub('[^\d\.]','',str(elem)))))       
+        elif (type(elem) == str) | (type(elem) == int) | (type(elem) == float):
+            return str(int(float(re.sub('[^\d\.]', '', str(elem)))))
         else:
             raise ValueError('Unknown type received')
     else:
@@ -130,7 +197,9 @@ def standardize_uvi(elem, check_field=True):
         return None
 
     
-## flag mapping
+#
+# Flag mapping based on YAML mapping file per registry
+#
 def standardize_flag(df, field, rules):
     if field:
         if rules:
@@ -145,7 +214,9 @@ def standardize_flag(df, field, rules):
     else:
         return None
         
-## geartype mapping
+#
+# Geartype mapping  based on YAML mapping file per registry
+#
 def standardize_geartype(df, field, rules):
     if field:
         if rules:

@@ -29,3 +29,9 @@ v0.6.6, 2018-04-27 -- Fix a bug in standardize_uvi()
 v0.6.7, 2019-02-13 -- Make it compatible with Python 3.x for unicode/unidecode 
 v0.6.8, 2019-03-02 -- Fix a bug in standardize_flag and standardize_geartype for the case when fields are Null
 v0.6.9, 2019-04-19 -- Upgrade pd.tslib.Timestamp with pd.Timestamp as tslib is depreciated now
+v0.6.10, 2019-7-28 -- Add standardize_owner()
+v0.6.11, 2019-7-28 -- Fix a bug in standardize_owner()
+v0.6.12, 2019-07-29 -- Add several more standardization rules for standardize_owner()
+v0.6.13, 2019-08-21 -- Not convert int 0 to Null string in standardize_int_str()
+
+
