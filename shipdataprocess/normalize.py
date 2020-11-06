@@ -6,7 +6,7 @@ import sys
 
 def normalize_shipname(name):
         
-    if (name is not None)|(name != name)|(name == ''):
+    if (name is None)|(name != name)|(name == ''):
         return None
 
     #
@@ -168,7 +168,7 @@ def normalize_shipname(name):
 
 def normalize_callsign(callsign):
 
-    if (callsign is not None) | (callsign != callsign) | (callsign == ''):
+    if (callsign is None) | (callsign != callsign) | (callsign == ''):
         return None
 
     #
