@@ -127,16 +127,26 @@ def smart_upper(text):
     """
 
     #
-    # Find URL (Here, we assume there is only one URL in the given string)
+    # Find URLs in the given string and upper-case only the other texts
+    # to preserve caps of URLs
     regex_for_url = r"((http|ftp|https)\:\/\/)?([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?"
-    m = re.search(regex_for_url, text)
-    url, start, end = "", 0, 0
-    if m:
+    matched = re.finditer(regex_for_url, text)
+    prev_end = 0
+    for m in matched:
         url = m.group(0)
         start = m.start()
         end = m.end()
 
-    return text[:start].upper() + url + text[end:].upper()
+        text = \
+            text[:prev_end] + \
+            text[prev_end:start].upper() + \
+            url + \
+            text[end:]
+        prev_end = end
+
+    text = text[:prev_end] + text[prev_end:].upper()
+
+    return text
 
 
 def standardize_str(elem, check_field=True):

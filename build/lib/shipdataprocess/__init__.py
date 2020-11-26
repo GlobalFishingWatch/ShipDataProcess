@@ -3,7 +3,7 @@ Useful modules to process vessel data
 """
 
 
-__version__ = '0.6.15'
+__version__ = '0.6.16'
 __author__ = 'Jaeyoon Park'
 __email__ = 'jaeyoon.park13@gmail.com'
 __source__ = 'https://github.com/GlobalFishingWatch/shipdataprocess'

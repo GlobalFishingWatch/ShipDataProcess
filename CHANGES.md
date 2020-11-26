@@ -35,5 +35,6 @@ v0.6.12, 2019-07-29 -- Add several more standardization rules for standardize_ow
 v0.6.13, 2019-08-21 -- Not convert int 0 to Null string in standardize_int_str()
 v0.6.14, 2020-11-05 -- Add imo_checksum(), fix standardize_imo() to remove any number that does not get through IMO checksum nor noisy string. Fix standardize_str() to preserve upper/lower cases for URLs
 v0.6.15, 2020-11-06 -- Fix a bug in normalize_shipname() and normalize_callsign() regarding None
+v0.6.16, 2020-11-26 -- Make smart_upper() to capture multiple URLs not to capitalize them
 
 
