@@ -122,7 +122,7 @@ def smart_upper(text):
     when it's related to URLs
     Source: https://stackoverflow.com/questions/6038061/regular-expression-to-find-urls-within-a-string
 
-    :param text: String, given text
+    :param text: String, giv en text
     :return: String, Upper cased text except the URL part
     """
 
@@ -205,7 +205,8 @@ def standardize_owner(elem, check_field=True):
              ' CA($)', ' C A($)', ' GIE($)', 'KABUSHIKI KAISHA($)', ' KK($)', 'K K($)', ' BV($)', ' B V($)',
              'YUGEN KAISHA', 'YUGEN', 'KAISHA', 'KAISYA', 'YUGEN KAISYA', 'GYOGYO', 'GYOGYOU', 'GAISHA', ' JU($)',
              'OOO($)', '(^)OOO', 'CO PVT($)', 'COMPANY PVT($)', ' PT($)', ' P T($)', '(^)PT', ' CC($)',
-             ' CO($)',  'COMPANY($)', ' NV($)', ' N V($)', '^NA($)', '^N A($)', 'RPTD SOLD.*', 'OWNER UNKNOWN*']
+             ' CO($)',  'COMPANY($)', ' NV($)', ' N V($)', '^NA($)', '^N A($)', 'RPTD SOLD.*', 'OWNER UNKNOWN*',
+             'CO LT', 'EHF($)', '(^)EHF']
         text_to_remove = '|'.join(text_to_remove)
 
         if type(elem) == pd.core.series.Series:

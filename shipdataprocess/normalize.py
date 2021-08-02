@@ -75,6 +75,8 @@ def normalize_shipname(name):
     name = re.sub(' [A-Z]/[A-Z]($)', ' ', name)
     name = re.sub('^[A-Z]\\\\[A-Z][^\w]+', ' ', name) ## All other types of X\X
     name = re.sub(' [A-Z]\\\\[A-Z]($)', ' ', name)
+    name = re.sub('^KM[^\w]+', ' ', name)  # Indonesia K.M
+    name = re.sub('^E.B. ', ' ', name)  # Dutch E.B. equivalent to NO.
 
     name = re.sub('\(.+\)', ' ', name)  # All additional information in parentheses
     name = re.sub('\[.+\]', ' ', name)
@@ -104,9 +106,9 @@ def normalize_shipname(name):
     name = re.sub('5TH ', 'FIFTH ', name)
 
     #
-    # Country specific appendix (S. Korea)
-    name = re.sub(' HO($)', ' ', name)
-    #name = re.sub('HAO($)', ' ', name)
+    # Country specific appendix (S. Korea and China)
+    name = re.sub('\d+\s*HO($)', ' ', name)
+    name = re.sub('\d+\s*HAO($)', ' ', name)
 
     #
     # Remove NO.s such in NO.5, NO5, NO:5, NO. 5, NO 5, N5, N-5 etc
@@ -168,7 +170,7 @@ def normalize_shipname(name):
 
 def normalize_callsign(callsign):
 
-    if (callsign is None) | (callsign != callsign) | (callsign == ''):
+    if (callsign is None) | (callsign != callsign) | (callsign == '') | (callsign != "NONE") | (callsign != "UNKNOWN"):
         return None
 
     #
