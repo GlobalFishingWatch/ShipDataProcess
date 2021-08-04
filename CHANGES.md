@@ -37,5 +37,6 @@ v0.6.14, 2020-11-05 -- Add imo_checksum(), fix standardize_imo() to remove any n
 v0.6.15, 2020-11-06 -- Fix a bug in normalize_shipname() and normalize_callsign() regarding None
 v0.6.16, 2020-11-26 -- Make smart_upper() to capture multiple URLs not to capitalize them
 v0.6.17, 2021-07-30 -- Add Indonesian prefix and Chinese HAO
+v0.6.18, 2021-08-04 -- Fix a bug in normalize_callsign() regarding NULL/NONE
 
 

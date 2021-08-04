@@ -170,7 +170,8 @@ def normalize_shipname(name):
 
 def normalize_callsign(callsign):
 
-    if (callsign is None) | (callsign != callsign) | (callsign == '') | (callsign != "NONE") | (callsign != "UNKNOWN"):
+    if (callsign is None) | (callsign != callsign) | (callsign == '') | \
+            (callsign == "NONE") | (callsign == "UNKNOWN") | (callsign == "NIL") | (callsign == "NULL"):
         return None
 
     #
