@@ -3,15 +3,15 @@ Useful modules to process vessel data
 """
 
 
-__version__ = '0.6.18'
-__author__ = 'Jaeyoon Park'
-__email__ = 'jaeyoon.park13@gmail.com'
-__source__ = 'https://github.com/GlobalFishingWatch/shipdataprocess'
+__version__ = "0.7.0"
+__author__ = "Jaeyoon Park"
+__email__ = "jaeyoon@globalfishingwatch.org"
+__source__ = "https://github.com/GlobalFishingWatch/shipdataprocess"
 __license__ = """
 Copyright 2017 Global Fishing Watch Inc.
 Authors:
 
-Jaeyoon Park <jaeyoon.park13@gmail.com>
+Jaeyoon Park <jaeyoon@globalfishingwatch.org>
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
