@@ -22,14 +22,9 @@ def normalize_shipname(name):
 
     if (name is None) | (name != name) | (name == ""):
         return None
-    print(name)
+
     #
     # Remove nasty characters and white spaces
-    # try:
-    #     name = unidecode(str(name.decode("utf-8")))
-    # except UnicodeDecodeError:
-    #     name = unidecode(str(name.decode("iso_8859-1")))
-
     if issubclass(type(name), str):
         name = unidecode(name)
     elif isinstance(name, bytes):
@@ -41,7 +36,7 @@ def normalize_shipname(name):
         name = str(name)
     else:
         return None
-    print(name)
+
     #
     # Turn to upper cases
     name = name.upper()

@@ -39,3 +39,4 @@ v0.6.16, 2020-11-26 -- Make smart_upper() to capture multiple URLs not to capita
 v0.6.17, 2021-07-30 -- Add Indonesian prefix and Chinese HAO
 v0.6.18, 2021-08-04 -- Fix a bug in normalize_callsign() regarding NULL/NONE
 v0.7.0, 2022-01-26 -- Fix it to work only in Python 3.6 or above, codes are compliant with PEP8, dependencies are clearer (Django removed)
+v0.7.1, 2022-01-27 -- Bug fixed
