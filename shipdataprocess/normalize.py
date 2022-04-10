@@ -2,6 +2,8 @@ from unidecode import unidecode
 import roman
 import re
 
+unicode = str
+
 def normalize_shipname(name):
         
     if (name==None)|(name!=name)|(name==''):
