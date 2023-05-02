@@ -31,3 +31,6 @@ source venv/bin/activate
 pip install -e .
 py.test tests
 ```
+
+# Changes/updates
+See `./CHANGE.md`
