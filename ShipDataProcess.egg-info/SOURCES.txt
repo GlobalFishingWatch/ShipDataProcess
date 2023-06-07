@@ -3,6 +3,7 @@ LICENSE
 MANIFEST.in
 MANUAL.txt
 README.md
+pyproject.toml
 setup.cfg
 setup.py
 ShipDataProcess.egg-info/PKG-INFO
@@ -20,3 +21,5 @@ shipdataprocess.egg-info/dependency_links.txt
 shipdataprocess.egg-info/requires.txt
 shipdataprocess.egg-info/top_level.txt
 shipdataprocess.egg-info/zip-safe
+tests/test_normalize_callsign.py
+tests/test_normalize_shipname.py
