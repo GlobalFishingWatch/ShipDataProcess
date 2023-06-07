@@ -151,6 +151,10 @@ def normalize_shipname(name):
     )  # replace 'BLACK & WHITE' to 'BLACK AND WHITE'
 
     #
+    # Replace STA and STA. to SANTA
+    name = re.sub(r"((^(STA|STA.)|\s(STA|STA.))\s|\s(STA|STA.)$)", "SANTA", name)
+
+    #
     # Deromanization
     vs = re.split(r"\s+|-|(?<=[A-Z]{3})\.", name)
     try:

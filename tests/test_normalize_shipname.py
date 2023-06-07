@@ -96,3 +96,41 @@ def test_normalize_shipname_utf8_encoded():
 def test_normalize_shipname_latin_encoded():
     result = normalize_shipname(b"\xe1")
     assert result == "A"
+
+def test_normalize_shipname_santa():
+    # case STA.
+    result = normalize_shipname("STA. ISABEL")
+    assert result == "SANTAISABEL"
+
+    # case STA
+    result = normalize_shipname("STA ISABEL")
+    assert result == "SANTAISABEL"
+
+    # case STA (without whitespace)
+    result = normalize_shipname("STAISABEL")
+    assert result == "STAISABEL"
+
+    # case STA in the middle
+    result = normalize_shipname("VESSEL STA ISABEL")
+    assert result == "VESSELSANTAISABEL"
+
+    # case STA. in the middle
+    result = normalize_shipname("VESSEL STA. ISABEL")
+    assert result == "VESSELSANTAISABEL"
+
+    # case STA in the middle in one word
+    result = normalize_shipname("VESSELSTAISABEL")
+    assert result == "VESSELSTAISABEL"
+
+    # case STA at the end
+    result = normalize_shipname("ISABEL STA")
+    assert result == "ISABELSANTA"
+
+    # case STA. at the end
+    result = normalize_shipname("ISABEL STA.")
+    assert result == "ISABELSANTA"
+
+    # case STA at the end in one word
+    result = normalize_shipname("ISABELSTA")
+    assert result == "ISABELSTA"
+
