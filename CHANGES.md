@@ -40,4 +40,5 @@ v0.6.17, 2021-07-30 -- Add Indonesian prefix and Chinese HAO suffix to the list 
 v0.6.18, 2021-08-04 -- Fix a bug in normalize_callsign() regarding NULL/NONE  
 v0.7.0, 2022-01-26 -- Fix it to work only in Python 3.6 or above, codes are compliant with PEP8, dependencies are clearer (Django removed)   
 v0.7.1, 2022-01-27 -- Fix a bug related to the shift to Python 3.6 or above compatibility  
-v0.8.0, 2023-06-07 -- Improve normalize_shipname() to replace STA and STA. values to SANTA  
+v0.8.0, 2023-06-07 -- Improve normalize_shipname() to replace STA and STA. values to SANTA and fix discrepancy with the trailing 0s and suffix N
+ 
