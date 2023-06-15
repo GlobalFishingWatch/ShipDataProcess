@@ -14,9 +14,15 @@ steps:
         "upload",
         "/workspace/dist/*",
         "-u", "$_PYPI_USERNAME",
-        "-p", "$_PYPI_PASSWORD",
+        "-p", "$$PYPI_PASSWORD",
         "--verbose",
       ]
     waitFor: ["BUILD WHEEL"]
+    secretEnv: [ 'PYPI_PASSWORD' ]
+
+availableSecrets:
+  secretManager:
+  - versionName: $_PYPI_PASSWORD
+    env: 'PYPI_PASSWORD'
 
 timeout: 900s
