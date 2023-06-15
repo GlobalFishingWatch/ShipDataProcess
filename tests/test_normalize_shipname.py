@@ -97,6 +97,7 @@ def test_normalize_shipname_latin_encoded():
     result = normalize_shipname(b"\xe1")
     assert result == "A"
 
+
 def test_normalize_shipname_santa():
     # case STA.
     result = normalize_shipname("STA. ISABEL")
@@ -134,3 +135,24 @@ def test_normalize_shipname_santa():
     result = normalize_shipname("ISABELSTA")
     assert result == "ISABELSTA"
 
+
+def test_normalize_shipname_suffix_n():
+    result = normalize_shipname("KAROLINE N")
+    assert result == "KAROLINEN"
+
+    result = normalize_shipname("LULANYU77617   N")
+    assert result == "LULANYU77617N"
+
+    result = normalize_shipname("ROAM-N")
+    assert result == "ROAMN"
+
+    result = normalize_shipname("LEENDERT N5")
+    assert result == "LEENDERT5"
+
+
+def test_normalize_shipname_trailing_zeros():
+    result = normalize_shipname("LEENDERT M 000")
+    assert result == "LEENDERTM"
+
+    result = normalize_shipname("LULONGYUANYU 000051325")
+    assert result == "LULONGYUANYU51325"
