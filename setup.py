@@ -5,6 +5,7 @@ Setup script for shipdataprocess
 """
 
 import codecs
+import versioneer
 
 from setuptools import find_packages
 from setuptools import setup
@@ -29,6 +30,7 @@ setup(
     name="shipdataprocess",
     packages=find_packages(exclude=["test*.*", "tests"]),
     url=package.__source__,
-    version=package.__version__,
+    version=versioneer.get_version(),
+    cmdclass=versioneer.get_cmdclass(),
     zip_safe=True,
 )

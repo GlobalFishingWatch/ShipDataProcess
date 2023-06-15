@@ -1,0 +1,22 @@
+steps:
+
+  - name: "gcr.io/world-fishing-827/github.com/globalfishingwatch/pypi-tools:3.6"
+    id: "BUILD WHEEL"
+    entrypoint: "python"
+    args: ["setup.py", "sdist", "bdist_wheel", "--universal"]
+    waitFor: ["-"]
+
+  - name: "gcr.io/world-fishing-827/github.com/globalfishingwatch/pypi-tools:3.6"
+    id: "push to pypi"
+    entrypoint: "twine"
+    args:
+      [
+        "upload",
+        "/workspace/dist/*",
+        "-u", "$_PYPI_USERNAME",
+        "-p", "$_PYPI_PASSWORD",
+        "--verbose",
+      ]
+    waitFor: ["BUILD WHEEL"]
+
+timeout: 900s

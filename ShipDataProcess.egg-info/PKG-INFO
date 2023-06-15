@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: shipdataprocess
-Version: 0.8.0
+Version: 8.0.1.dev0+0.g573d565.dirty
 Summary: Useful modules to process vessel data
 Home-page: https://github.com/GlobalFishingWatch/shipdataprocess
 Author: Jaeyoon Park

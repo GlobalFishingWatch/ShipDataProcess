@@ -6,11 +6,13 @@ README.md
 pyproject.toml
 setup.cfg
 setup.py
+versioneer.py
 ShipDataProcess.egg-info/PKG-INFO
 ShipDataProcess.egg-info/SOURCES.txt
 ShipDataProcess.egg-info/dependency_links.txt
 ShipDataProcess.egg-info/top_level.txt
 shipdataprocess/__init__.py
+shipdataprocess/_version.py
 shipdataprocess/collapse.py
 shipdataprocess/normalize.py
 shipdataprocess/shiptype.py

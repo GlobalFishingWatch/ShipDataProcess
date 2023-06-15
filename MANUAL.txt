@@ -1,3 +1,6 @@
-# Step 1: Make changes to files under ./shipdataprocess/ and update '__init__.py' and 'CHANGE.md'
-# Step 2: Command 'python setup.py bdist_wheel --universal'
-# Step 3: Command 'twine upload dist/[whl file specific version to publish]'
+# Step 1: Make changes to files under ./shipdataprocess/
+# Step 2: Document the changes in 'CHANGES.md'
+# Step 3: Merge the PR to master (or push commits to master)
+# Step 4: Create git tag and push it. The tag number will be the same that the package will have after publishing in PyPI.
+
+An automatic process will build the new package version and publish it in PyPI.
