@@ -151,12 +151,18 @@ def normalize_shipname(name):
     )  # replace 'BLACK & WHITE' to 'BLACK AND WHITE'
 
     #
+    # Replace STA and STA. to SANTA
+    name = re.sub(
+        r"((^(STA|STA.)|\s(STA|STA.))\s|\s(STA|STA.)$)", "SANTA", name
+    )
+
+    #
     # Deromanization
     vs = re.split(r"\s+|-|(?<=[A-Z]{3})\.", name)
     try:
         #
-        # If last word from the name text has L/C/D/M then do not deromanize
-        if re.search(r"[LCDM]", vs[-1]).group(0):
+        # If last word from the name text has L/C/D/M/N then do not deromanize
+        if re.search(r"[LCDMN]", vs[-1]).group(0):
             pass
     except AttributeError:
         #
