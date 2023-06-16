@@ -1,4 +1,6 @@
 steps:
+  - name: gcr.io/cloud-builders/git
+    args: ['fetch', '--unshallow']
 
   - name: "gcr.io/world-fishing-827/github.com/globalfishingwatch/pypi-tools:3.6"
     id: "BUILD WHEEL"
