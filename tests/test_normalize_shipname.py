@@ -131,6 +131,10 @@ def test_normalize_shipname_santa():
     result = normalize_shipname("ISABEL STA.")
     assert result == "ISABELSANTA"
 
+    # case STA at the end in two words and the result shouldn't change
+    result = normalize_shipname("SUPER STAR")
+    assert result == "SUPERSTAR"
+
     # case STA at the end in one word
     result = normalize_shipname("ISABELSTA")
     assert result == "ISABELSTA"

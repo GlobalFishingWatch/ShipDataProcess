@@ -152,9 +152,7 @@ def normalize_shipname(name):
 
     #
     # Replace STA and STA. to SANTA
-    name = re.sub(
-        r"((^(STA|STA.)|\s(STA|STA.))\s|\s(STA|STA.)$)", "SANTA", name
-    )
+    name = re.sub(r"(^(STA\s|STA\.)|\s(STA\s|STA\.)|\s(STA|STA\.)$)", "SANTA", name)
 
     #
     # Deromanization
