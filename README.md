@@ -1,4 +1,4 @@
-# shipdataprocess (current latest version 0.8.0)
+# shipdataprocess (current latest version 0.8.2)
 
 shipdataprocess provides packages and modules that help users process raw ship data. The data may come from Automatic identification system (AIS) transmission or others. Ship data includes vessel's name, callsign, shiptype, geartype information etc. You might find the packages here useful for normalizing ship names and IRCS (International Radio Call Sign) and for dealing with various types of ships and fishing gears. Typical usage often looks like this:
 
