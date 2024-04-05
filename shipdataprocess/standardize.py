@@ -473,7 +473,10 @@ def standardize_int_str(elem, check_field=True):
                 if not pd.isna(x)
                 else None )
         elif type(elem) == pd.core.frame.DataFrame:
-            return elem[check_field].apply(clean_int_str_in_pd_element)
+            return elem[check_field].apply(
+                lambda x: clean_int_str_in_pd_element(x)
+                if not pd.isna(x)
+                else None )
         elif (elem != elem) | (elem is None) | (elem == ""):
             return None
         elif (type(elem) == str) | (type(elem) == int) | (type(elem) == float):
