@@ -448,7 +448,7 @@ def clean_int_str_in_pd_element(x):
     if temporal_value == "":
         return None
 
-    temporal_value = str(int(float(re.sub(r"[^\d.]", "", str(x)))))
+    temporal_value = str(int(float(temporal_value)))
     if (x == temporal_value) & (temporal_value is not None) & (temporal_value != ""):
         return temporal_value
     else:
