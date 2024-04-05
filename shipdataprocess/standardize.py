@@ -449,7 +449,7 @@ def clean_int_str_in_pd_element(x):
         return None
 
     temporal_value = str(int(float(temporal_value)))
-    if (x == temporal_value) & (temporal_value is not None) & (temporal_value != ""):
+    if (not pd.isna(temporal_value)) & (temporal_value != ""):
         return temporal_value
     else:
         return None
