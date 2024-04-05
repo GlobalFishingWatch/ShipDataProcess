@@ -468,7 +468,10 @@ def standardize_int_str(elem, check_field=True):
     """
     if check_field:
         if type(elem) == pd.core.series.Series:
-            return elem.apply(clean_int_str_in_pd_element)
+            return elem.apply(
+                lambda x: clean_int_str_in_pd_element(x)
+                if not pd.isna(x)
+                else None )
         elif type(elem) == pd.core.frame.DataFrame:
             return elem[check_field].apply(clean_int_str_in_pd_element)
         elif (elem != elem) | (elem is None) | (elem == ""):
