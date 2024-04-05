@@ -440,6 +440,20 @@ def standardize_owner(elem, check_field=True):
         return None
 
 
+def clean_int_str(x):
+    return re.sub(r"[^\d.]", "", str(x))
+
+def clean_int_str_in_pd_element(x):
+    temporal_value = clean_int_str(x)
+    if temporal_value == "":
+        return None
+
+    temporal_value = str(int(float(temporal_value)))
+    if (not pd.isna(temporal_value)) & (temporal_value != ""):
+        return temporal_value
+    else:
+        return None
+
 def standardize_int_str(elem, check_field=True):
     """
     This module standardizes an integer in the form of string
@@ -455,20 +469,18 @@ def standardize_int_str(elem, check_field=True):
     if check_field:
         if type(elem) == pd.core.series.Series:
             return elem.apply(
-                lambda x: str(int(float(re.sub(r"[^\d.]", "", str(x)))))
-                if (x == x) & (x is not None) & (x != "")
-                else None
-            )
+                lambda x: clean_int_str_in_pd_element(x)
+                if not pd.isna(x)
+                else None )
         elif type(elem) == pd.core.frame.DataFrame:
             return elem[check_field].apply(
-                lambda x: str(int(float(re.sub(r"[^\d.]", "", str(x)))))
-                if (x == x) & (x is not None) & (x != "")
-                else None
-            )
+                lambda x: clean_int_str_in_pd_element(x)
+                if not pd.isna(x)
+                else None )
         elif (elem != elem) | (elem is None) | (elem == ""):
             return None
         elif (type(elem) == str) | (type(elem) == int) | (type(elem) == float):
-            return str(int(float(re.sub(r"[^\d.]", "", str(elem)))))
+            return clean_int_str(elem)
         else:
             raise ValueError("Unknown type received")
     else:
