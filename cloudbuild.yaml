@@ -17,7 +17,7 @@ steps:
     args:
       - '-c'
       - |
-        twine upload /workspace/dist/* -u $_PYPI_USERNAME -p $$PASSWORD --verbose
+        twine upload /workspace/dist/* -u $_PYPI_TOKEN_USERNAME -p $$TOKEN --verbose
     id: push to pypi
     waitFor:
       - BUILD WHEEL
@@ -29,3 +29,5 @@ availableSecrets:
   secretManager:
     - versionName: $_PYPI_PASSWORD
       env: PASSWORD
+    - versionName: $_PYPI_TOKEN
+      env: TOKEN
