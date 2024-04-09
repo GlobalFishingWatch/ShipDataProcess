@@ -482,7 +482,7 @@ def standardize_int_str(elem, check_field=True):
         elif (type(elem) == str) | (type(elem) == int) | (type(elem) == float):
             return clean_int_str(elem)
         else:
-            raise ValueError("Unknown type received")
+            raise ValueError("Unknown type received in standardize_int_str")
     else:
         return None
 

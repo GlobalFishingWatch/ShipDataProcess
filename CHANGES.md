@@ -43,5 +43,6 @@ v0.7.1, 2022-01-27 -- Fix a bug related to the shift to Python 3.6 or above comp
 v0.8.0, 2023-06-07 -- Improve normalize_shipname() to replace STA and STA. values to SANTA and fix discrepancy with the trailing 0s and suffix N
 v0.8.2, 2023-08-21 -- Fix a bug in normalize_shipname() regarding STA./STA replace feature.
 v0.8.3, 2024-04-04 -- Fix a bug in standardize_int_str(). Check if string is an integer before trying to cast.
+v0.8.4, 2024-04-05 -- Minor improvements in standardize_int_str().
 
  
