@@ -44,5 +44,6 @@ v0.8.0, 2023-06-07 -- Improve normalize_shipname() to replace STA and STA. value
 v0.8.2, 2023-08-21 -- Fix a bug in normalize_shipname() regarding STA./STA replace feature.
 v0.8.3, 2024-04-04 -- Fix a bug in standardize_int_str(). Check if string is an integer before trying to cast.
 v0.8.4, 2024-04-05 -- Minor improvements in standardize_int_str().
+v0.8.5, 2024-04-10 -- Add build folder to .gitignore.
 
  
