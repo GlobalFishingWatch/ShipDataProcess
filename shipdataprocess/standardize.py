@@ -50,12 +50,12 @@ def imo_checksum(n):
     #
     # IMO checksum formula
     if (
-        (n // 1000000 % 10) * 7
-        + (n // 100000 % 10) * 6
-        + (n // 10000 % 10) * 5
-        + (n // 1000 % 10) * 4
-        + (n // 100 % 10) * 3
-        + (n // 10 % 10) * 2
+            (n // 1000000 % 10) * 7
+            + (n // 100000 % 10) * 6
+            + (n // 10000 % 10) * 5
+            + (n // 1000 % 10) * 4
+            + (n // 100 % 10) * 3
+            + (n // 10 % 10) * 2
     ) % 10 == (n % 10):
         return True
     else:
@@ -178,7 +178,7 @@ def smart_upper(text):
         end = m.end()
 
         text = (
-            text[:prev_end] + text[prev_end:start].upper() + url + text[end:]
+                text[:prev_end] + text[prev_end:start].upper() + url + text[end:]
         )
         prev_end = end
 
@@ -443,16 +443,27 @@ def standardize_owner(elem, check_field=True):
 def clean_int_str(x):
     return re.sub(r"[^\d.]", "", str(x))
 
+
+def is_float(string):
+    try:
+        float(string)
+        return True
+    except ValueError:
+        return False
+
+
 def clean_int_str_in_pd_element(x):
     temporal_value = clean_int_str(x)
     if temporal_value == "":
         return None
 
-    temporal_value = str(int(float(temporal_value)))
-    if (not pd.isna(temporal_value)) & (temporal_value != ""):
-        return temporal_value
-    else:
-        return None
+    if is_float(temporal_value):
+        temporal_value = str(int(float(temporal_value)))
+        if (not pd.isna(temporal_value)) & (temporal_value != ""):
+            return temporal_value
+
+    return None
+
 
 def standardize_int_str(elem, check_field=True):
     """
@@ -471,12 +482,12 @@ def standardize_int_str(elem, check_field=True):
             return elem.apply(
                 lambda x: clean_int_str_in_pd_element(x)
                 if not pd.isna(x)
-                else None )
+                else None)
         elif type(elem) == pd.core.frame.DataFrame:
             return elem[check_field].apply(
                 lambda x: clean_int_str_in_pd_element(x)
                 if not pd.isna(x)
-                else None )
+                else None)
         elif (elem != elem) | (elem is None) | (elem == ""):
             return None
         elif (type(elem) == str) | (type(elem) == int) | (type(elem) == float):
@@ -584,7 +595,6 @@ def standardize_geartype(df, field, rules):
             return None
     else:
         return None
-
 
 #
 # Below is not used.
