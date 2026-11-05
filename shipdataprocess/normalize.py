@@ -135,8 +135,9 @@ def normalize_shipname(name):
 
     #
     # Country specific appendix (S. Korea and China)
-    name = re.sub(r"\d+\s*HO($)", " ", name)
-    name = re.sub(r"\d+\s*HAO($)", " ", name)
+    # Drop only the suffix (HO/HAO) and keep the hull number, which tells sister vessels apart
+    name = re.sub(r"(\d+)\s*HO$", r" \1", name)
+    name = re.sub(r"(\d+)\s*HAO$", r" \1", name)
 
     #
     # Remove NO.s such in NO.5, NO5, NO:5, NO. 5, NO 5, N5, N-5 etc

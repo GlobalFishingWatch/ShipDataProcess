@@ -160,3 +160,32 @@ def test_normalize_shipname_trailing_zeros():
 
     result = normalize_shipname("LULONGYUANYU 000051325")
     assert result == "LULONGYUANYU51325"
+
+
+def test_normalize_shipname_hull_number_suffix():
+    # Chinese: "N 号" keeps the number, drops HAO
+    result = normalize_shipname("金丰5号")
+    assert result == "JINFENG5"
+    result = normalize_shipname("金丰3号")
+    assert result == "JINFENG3"
+    assert normalize_shipname("金丰5号") != normalize_shipname("金丰3号")
+
+    # Korean: "N 호"
+    result = normalize_shipname("501호")
+    assert result == "501"
+    assert normalize_shipname("동원501호") != normalize_shipname("동원502호")
+
+    # Latin script
+    result = normalize_shipname("DONGWON 501 HO")
+    assert result == "DONGWON501"
+    result = normalize_shipname("DONGWON 502 HO")
+    assert result == "DONGWON502"
+    result = normalize_shipname("DONGWON501HO")
+    assert result == "DONGWON501"
+
+
+def test_normalize_shipname_sequential_names_other_scripts():
+    assert normalize_shipname("ΑΓΙΟΣ ΝΙΚΟΛΑΟΣ 2") == "AGIOSNIKOLAOS2"
+    assert normalize_shipname("ΑΓΙΟΣ ΝΙΚΟΛΑΟΣ 3") == "AGIOSNIKOLAOS3"
+    assert normalize_shipname("Сатурн-5") == "SATURN5"
+    assert normalize_shipname("Сатурн-3") == "SATURN3"

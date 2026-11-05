@@ -45,6 +45,5 @@ v0.8.2, 2023-08-21 -- Fix a bug in normalize_shipname() regarding STA./STA repla
 v0.8.3, 2024-04-04 -- Fix a bug in standardize_int_str(). Check if string is an integer before trying to cast.
 v0.8.4, 2024-04-05 -- Minor improvements in standardize_int_str().
 v0.8.5, 2024-04-10 -- Add build folder to .gitignore.
-v8.5.6, 2024-06-03 -- Fix a bug in standardize_int_str() to check if the string is a float before casting it.
-
- 
+v0.8.6, 2024-06-03 -- Fix a bug in standardize_int_str() to check if the string is a float before casting it.
+v0.8.7, 2026-10-27 -- Fix normalize_shipname() so the Chinese/Korean "N 号/호" (HAO/HO) suffix is dropped but the hull number is kept, so sister vessels no longer collapse into one normalized name.
