@@ -110,3 +110,11 @@ venv.bak/
 .idea/
 
 build
+
+# Terraform
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+*.tfplan
