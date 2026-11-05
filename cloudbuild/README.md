@@ -10,6 +10,13 @@ numeric components, with an optional `v` prefix). The complete build is defined
 inline in `main.tf`, including its steps, secrets, Cloud Logging configuration
 and 900-second timeout. No `cloudbuild.yaml` is needed in the source revision.
 
+Packaging and publishing use the official `python:3.12-slim` image, with
+`build==1.2.2.post1` and `twine==6.1.0`, respectively. The packaging step installs
+Git for Versioneer and waits for the repository history fetch before building.
+`python -m build` produces a source distribution and a Python 3 wheel; Twine
+checks their metadata before publishing. The build needs network access to
+Docker Hub, Debian package repositories and PyPI.
+
 From this directory, initialize and review the configuration:
 
 ```sh

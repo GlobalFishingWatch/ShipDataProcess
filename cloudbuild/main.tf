@@ -41,25 +41,38 @@ resource "google_cloudbuild_trigger" "shipdataprocess_trigger_tag" {
 
   build {
     step {
+      id   = "FETCH TAGS"
       name = "gcr.io/cloud-builders/git"
       args = ["fetch", "--unshallow"]
     }
 
     step {
       id         = "BUILD WHEEL"
-      name       = "gcr.io/world-fishing-827/github.com/globalfishingwatch/pypi-tools:3.6"
-      entrypoint = "python"
-      args       = ["setup.py", "sdist", "bdist_wheel", "--universal"]
-      wait_for   = ["-"]
+      name       = "python:3.12-slim"
+      entrypoint = "bash"
+      args = [
+        "-ceu",
+        <<-EOF
+          apt-get update
+          apt-get install -y --no-install-recommends git
+          python -m pip install --no-cache-dir build==1.2.2.post1
+          python -m build
+        EOF
+      ]
+      wait_for = ["FETCH TAGS"]
     }
 
     step {
       id         = "push to pypi"
-      name       = "gcr.io/world-fishing-827/github.com/globalfishingwatch/pypi-tools:3.6"
+      name       = "python:3.12-slim"
       entrypoint = "bash"
       args = [
-        "-c",
-        "twine upload /workspace/dist/* -u $_PYPI_TOKEN_USERNAME -p $$TOKEN --verbose",
+        "-ceu",
+        <<-EOF
+          python -m pip install --no-cache-dir twine==6.1.0
+          python -m twine check /workspace/dist/*
+          python -m twine upload /workspace/dist/* -u "$_PYPI_TOKEN_USERNAME" -p "$$TOKEN" --verbose
+        EOF
       ]
       wait_for   = ["BUILD WHEEL"]
       secret_env = ["PASSWORD", "TOKEN"]
